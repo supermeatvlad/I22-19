@@ -1,0 +1,96 @@
+CREATE DATABASE INTERNET_SHOP;
+
+
+\c internet_shop
+ 
+
+CREATE TABLE First_table (
+Client_ID SERIAL CHECK (Client_ID > 0),
+First_name VARCHAR(40) NOT NULL,
+Second_name VARCHAR(40) NOT NULL,
+PRIMARY KEY (Client_ID) );
+
+
+CREATE TABLE Second_table (
+Number_of_goods SERIAL PRIMARY KEY,
+Price MONEY NOT NULL);
+
+
+CREATE TABLE Third_table (
+Client_ID INT CHECK (Client_ID > 0) UNIQUE,
+Mobile_phone VARCHAR(10) NOT NULL UNIQUE,
+Number_of_passport VARCHAR(8) NOT NULL UNIQUE,
+FOREIGN KEY (Client_ID) REFERENCES First_table(Client_ID)   );
+
+
+CREATE TABLE Fourth_table (
+Client_ID INT CHECK (Client_ID > 0),
+Number_of_order SERIAL CHECK (Number_of_order > 0) PRIMARY KEY,
+Number_of_goods INT CHECK (Number_of_goods > 0) NOT NULL,
+FOREIGN KEY (Client_ID) REFERENCES First_table (Client_ID), 
+FOREIGN KEY (Number_of_goods) REFERENCES Second_table (Number_of_goods) );
+
+CREATE TABLE Fifth_table (
+Client_ID INT Check(Client_ID > 0),
+Number_of_card VARCHAR(16) PRIMARY KEY,
+FOREIGN KEY (Client_ID) REFERENCES First_table (Client_ID) );
+
+
+INSERT INTO First_table VALUES 
+(1, 'Egor', 'Chernyshenko'),
+(2, 'Dima', 'Ivanov'),
+(3, 'Vlad', 'Petrov');
+
+
+
+INSERT INTO Second_table VALUES 
+(1, 10),
+(2, 20),
+(3, 30);
+
+
+INSERT INTO Third_table VALUES 
+(3, '0124586542', 'MD607448'),
+(2, '0321436464', 'MK104472'),
+(1, '0662970072', 'NB605273');
+
+
+INSERT INTO Fourth_table VALUES
+(2, 1, 1);
+
+INSERT INTO Fourth_table(Client_ID, Number_of_goods) VALUES 
+(1,3),
+(1,1),
+(2,2),
+(3,1),
+(3,3);
+
+
+INSERT INTO Fifth_table VALUES
+(2, '5168747368300542'),
+(1, '5374402354679531'),
+(3, '4456789034561232');
+
+
+SELECT first_name, second_name, number_of_goods FROM first_table
+JOIN  fourth_table
+USING(Client_ID);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
